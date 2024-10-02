@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { getMovieSearch } from "../../tmdbAPI";
-import SearchBar from "../../Components/SearchBar/SearchBar";
-import MovieList from "../../Components/MovieList/MovieList";
+import SearchBar from "../../components/SearchBar/SearchBar";
+import MovieList from '../../components/MovieListt/MovieList';
+
 
 export default function MoviesPage() {
   const [searchParams, setSearchParams] = useSearchParams();

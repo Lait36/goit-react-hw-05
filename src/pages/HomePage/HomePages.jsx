@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { getArticles } from "../../tmdbAPI";
 import css from "./HomePage.module.css";
-import MovieList from "../../Components/MovieList/MovieList";
+import MovieList from '../../components/MovieListt/MovieList';
+
 
 export default function HomePage() {
   const [articles, setArticles] = useState([]);
