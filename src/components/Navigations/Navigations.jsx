@@ -1,8 +1,8 @@
 import { NavLink } from "react-router-dom";
-import css from "./Navigation.module.css";
+import css from "./Navigations.module.css";
 import clsx from "clsx";
 
-export default function Navigation() {
+export default function Navigations() {
   const makeNavLinkClass = ({ isActive }) => {
     return clsx(css.link, isActive && css.active);
   };

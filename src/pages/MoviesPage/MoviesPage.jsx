@@ -1,22 +1,23 @@
 import { useEffect, useState } from "react";
-// import { useLocation, useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { getMovieSearch } from "../../tmdbAPI";
 import SearchBar from "../../Components/SearchBar/SearchBar";
 import MovieList from "../../Components/MovieList/MovieList";
 
 export default function MoviesPage() {
-  const [topic, setTopic] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
   const [movies, setMovies] = useState(() => {
-    const savedMovies = sessionStorage.getItem("movies"); // Используем sessionStorage
+    const savedMovies = sessionStorage.getItem("movies");
     return savedMovies ? JSON.parse(savedMovies) : [];
   });
   const [error, setError] = useState(null);
-  console.log(error);
+
+  const topic = searchParams.get("query") || "";
 
   const onSubmit = (newTopic) => {
     setMovies([]); 
-    setTopic(newTopic);
     setError(false);
+    setSearchParams({ query: newTopic });
   };
 
   useEffect(() => {
@@ -28,7 +29,6 @@ export default function MoviesPage() {
       try {
         const data = await getMovieSearch(topic);
         setMovies(data.data.results);
-        // Сохраняем фильмы в sessionStorage
         sessionStorage.setItem("movies", JSON.stringify(data.data.results));
       } catch {
         setError(true);
@@ -42,6 +42,7 @@ export default function MoviesPage() {
     <>
       <SearchBar onSubmit={onSubmit} />
       {movies && <MovieList movies={movies} />}
+      {error && <p>The movie list could not be loaded. Please try again.</p>}
     </>
   );
 }

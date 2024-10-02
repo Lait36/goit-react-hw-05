@@ -1,16 +1,23 @@
-import { Link, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Link, useParams, useLocation } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
 import { getMovieDetails } from "../../tmdbAPI";
 import { useNavigate, Outlet } from "react-router-dom";
-import css from "./MovieDetailsPage.module.css"
+import css from "./MovieDetailsPage.module.css";
 
 export default function MovieDetailsPage() {
   const navigate = useNavigate();
-  const { "moviesId": movieId } = useParams();
+  const { moviesId: movieId } = useParams();
   const [movie, setMovie] = useState(null);
-  
+  const location = useLocation();
+  const prevLocation = useRef(location); // зберігає попереднє розташування
+
   const handleGoBack = () => {
-    navigate(-1); // Возврат на одну страницу назад
+    // перевірка чи існує попереднє розташування
+    if (prevLocation.current.state?.from) {
+      navigate(prevLocation.current.state.from);
+    } else {
+      navigate(-1); // повернення на одну сторінку назад
+    }
   };
 
   useEffect(() => {
@@ -23,7 +30,9 @@ export default function MovieDetailsPage() {
 
   return (
     <>
-      <button onClick={handleGoBack} className={css.btn}>Go back</button>
+      <button onClick={handleGoBack} className={css.btn}>
+        Go back
+      </button>
       {movie && (
         <>
           <div className={css.container}>
