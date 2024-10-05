@@ -9,15 +9,11 @@ export default function MovieDetailsPage() {
   const { moviesId: movieId } = useParams();
   const [movie, setMovie] = useState(null);
   const location = useLocation();
-  const prevLocation = useRef(location); // зберігає попереднє розташування
+
+  const prevLocation = useRef(location.state?.from || "/");
 
   const handleGoBack = () => {
-    // перевірка чи існує попереднє розташування
-    if (prevLocation.current.state?.from) {
-      navigate(prevLocation.current.state.from);
-    } else {
-      navigate(-1); // повернення на одну сторінку назад
-    }
+    navigate(prevLocation.current);
   };
 
   useEffect(() => {
